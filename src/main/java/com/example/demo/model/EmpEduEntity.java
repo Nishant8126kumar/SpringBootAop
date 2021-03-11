@@ -1,14 +1,12 @@
-package com.example.demo.Model;
+package com.example.demo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table
 public class EmpEduEntity {
 
 	@Id
@@ -21,6 +19,18 @@ public class EmpEduEntity {
 
 	@Column
 	private String clgName;
+
+	public EmpEduEntity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public EmpEduEntity(int empId, String degree, String clgName) {
+		super();
+		this.empId = empId;
+		this.degree = degree;
+		this.clgName = clgName;
+	}
 
 	public int getEmpId() {
 		return empId;
@@ -46,16 +56,9 @@ public class EmpEduEntity {
 		this.clgName = clgName;
 	}
 
-	public EmpEduEntity(int empId, String degree, String clgName) {
-		super();
-		this.empId = empId;
-		this.degree = degree;
-		this.clgName = clgName;
-	}
-
-	public EmpEduEntity() {
-		super();
-		// TODO Auto-generated constructor stub
+	@Override
+	public String toString() {
+		return "EmpEduEntity [empId=" + empId + ", degree=" + degree + ", clgName=" + clgName + "]";
 	}
 
 }

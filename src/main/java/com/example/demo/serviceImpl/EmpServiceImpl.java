@@ -1,9 +1,9 @@
 package com.example.demo.serviceImpl;
 
 import com.example.demo.ConstantFile;
-import com.example.demo.model.*;
 import com.example.demo.dto.EmpDto;
 import com.example.demo.exception.MappingException;
+import com.example.demo.model.*;
 import com.example.demo.repository.EmpAccountDetailsRepository;
 import com.example.demo.repository.EmpRepository;
 import com.example.demo.repository.OneToOneRepo;
@@ -22,7 +22,10 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -264,23 +267,34 @@ public class EmpServiceImpl implements EmpService {
     public <T> Object genericCriteria(T t1, String joinTableName) {
 
         List list = null;
-        List searcgList = new ArrayList();
-        searcgList.add("empName");
-        searcgList.add("bankName");
         try {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<?> criteriaQuery = criteriaBuilder.createQuery(t1.getClass());
             Root<?> root = criteriaQuery.from(t1.getClass());
             Join<Emp, EmpAccount> item = root.join(joinTableName, JoinType.LEFT);
-            criteriaQuery.multiselect(root.get("empName"),item.get("bankName"))
-                    .where(criteriaBuilder.equal(root.get("empId"), item.get("acId")));
-            criteriaQuery.select(root.get("empName")).where(criteriaBuilder.equal(root.get("empId"), "15"));
+//            item.on(criteriaBuilder.equal(item.get("acId"), root.get("empId")));
+//            criteriaQuery.multiselect(root.get("empName"), item.get("bankName"));
+//                    .where(criteriaBuilder.equal(item.get("ac_id"),item.get("acId")));
+            criteriaQuery.multiselect(root.get("empName"), item.get("bankName"));
             TypedQuery<?> query = entityManager.createQuery(criteriaQuery);
             list = query.getResultList();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Some Exception are occurred" + e.getMessage());
         }
         return list;
     }
 
+    public List<Object> getByJoinCriteria() {
+        List list;
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<EmpEntityDetails> criteriaQuery = criteriaBuilder.createQuery(EmpEntityDetails.class);
+        Root<EmpEntityDetails> root = criteriaQuery.from(EmpEntityDetails.class);
+        Join<EmpEntityDetails, EmpEduEntity> join = root.join("empListData", JoinType.LEFT);
+        join.on(criteriaBuilder.equal(join.get("empId"), root.get("id")));
+        criteriaQuery.multiselect(root.get("empName"), join.get("clgName"));
+//                .where(criteriaBuilder.equal(root.get("id"), join.get("empId")));
+        TypedQuery<EmpEntityDetails> query = entityManager.createQuery(criteriaQuery);
+        list = query.getResultList();
+        return list;
+    }
 }

@@ -1,22 +1,34 @@
 package com.example.demo.service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import com.example.demo.Model.EmpEntityDetails;
-import com.example.demo.dto.EmpDto;
+import com.example.demo.model.EmpEntityDetails;
 
 public interface EmpService {
 
-	public ArrayList<EmpEntityDetails> getAllEmpRecord();
+    public Map<String, Object> getAllEmpRecord();
 
-	public void createNewEmp(String empRecord);
+    public void createNewEmp(String empRecord);
 
-	public void deleteEmp(int empId);
+    public void deleteEmp(int empId);
 
-	public void updateEmp(EmpEntityDetails empRecord);
+    public Map<String, Object> updateEmp(EmpEntityDetails empRecord);
 
-	public EmpEntityDetails getEmpRecordById(int empId);
+    public Map<String, Object> getEmpRecordById(int empId);
 
-	public ArrayList<EmpDto> getEmpField();
+    public Map<String, Object> getEmpField();
+
+    public void manyToManyMappings();
+
+    public void manyToOne();
+
+    public void oneToOne();
+
+    public Map<String, Object> getListemp(Map<String, Object> param);
+
+    public <T> Object genericCriteria(T t1, String joinTableName);
+    List<Object> getByJoinCriteria();
+
 
 }

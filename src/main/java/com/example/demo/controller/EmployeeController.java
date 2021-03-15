@@ -38,8 +38,7 @@ public class EmployeeController {
     ModelMapper modelMapper = new ModelMapper();
 
     @PostMapping(value = "/emp", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createNewEmp(String empRecord) throws MainException {
-        System.out.print(modelMapper.map(empRecord, EmpEntityDetails.class));
+    public ResponseEntity<?> createNewEmp(@RequestBody String empRecord) throws MainException {
         empService.createNewEmp(empRecord);
         return new ResponseEntity<Map<String, Object>>(HttpStatus.CREATED);
     }

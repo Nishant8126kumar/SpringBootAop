@@ -93,7 +93,7 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public void deleteEmp(int empId) {
-        empRepository.deleteById(empId);
+//        empRepository.deleteById(empId);
     }
 
     @Override
